@@ -1,0 +1,133 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+<body>
+  
+<metal:calendar metal:fill-slot="javascript_head_slot">
+  <style type="text/css" media="all"
+          tal:content="string:@import url($portal_url/jscalendar/calendar-system.css);"/>
+  <script type="text/javascript"
+          tal:attributes="src string:$portal_url/jscalendar/calendar_stripped.js" />
+  <script type="text/javascript" charset="iso-8859-1"
+          tal:condition="exists: portal/jscalendar/calendar-en.js"
+          tal:attributes="src string:$portal_url/jscalendar/calendar-en.js" />
+</metal:calendar>
+
+<div metal:fill-slot="main">
+  <tal:main-macro metal:define-macro="main">
+    <h1 tal:content="here/title_or_id" />
+    <br/>
+    <form method="POST" tal:attributes="action string:${here/absolute_url}/@@deadline_provider/submitDeadlineForm"
+          tal:define="review_state wf_state">
+      <input type="hidden" name="orig_url" tal:attributes="value python:here.REQUEST.get_header('Referer')" />
+      <div class="field"
+           tal:define="inputname  string:Deadline;
+                       formname   string:deadline_form;
+                       expiration here/ExpirationDate;
+                       inputvalue here/@@deadline_provider/getDeadline;
+                       tabindex tabindex/next;">
+        <label for="Deadline">Deadline</label>
+        <div metal:use-macro="here/calendar_macros/macros/calendarDatePickerBox" />
+      </div>
+      <div class="field">
+        <label for="Responsible">Responsible</label>
+        <div>
+          <select name="Responsible" id="Responsible" tal:define="responsible here/@@deadline_provider/getResponsible">
+            <tal:users repeat="user here/@@deadline_provider/getPossibleResponsible">
+              <option tal:content="user/fullname"
+                      tal:attributes="value user/id; selected python:responsible==user['id']" />
+            </tal:users>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="comment" 
+               i18n:translate="label_comments">Comments</label>
+
+        <div class="formHelp"
+             i18n:translate="help_publishing_comments">
+          Will be added to the publishing history. If multiple
+          items are selected, this comment will be attached to all
+          of them.
+        </div>
+        <textarea id="comment"
+                  name="comment"
+                  cols="60"
+                  rows="5"
+                  tabindex=""
+                  tal:attributes="tabindex tabindex/next;"
+                  tal:content="request/comment|nothing"
+                  ></textarea>
+      </div>
+
+      <div class="field">
+        <label i18n:translate="label_change_status">Change State</label>
+        <div class="formHelp"
+             i18n:translate="help_change_status">
+          Select the new state for the selected items.
+        </div>
+
+        <div tal:define="tabindex tabindex/next;
+                         error_workflow_action errors/workflow_action|nothing;
+                         objs request/paths|nothing;
+                         target python:test(objs, objs, here);"
+             tal:attributes="class python:test(error_workflow_action, 'field error', 'field')">
+
+          <div tal:condition="error_workflow_action">
+            <tal:block content="error_workflow_action">Error</tal:block>
+            <br />
+          </div>
+
+          <span tal:replace="nothing">
+            For usability we will want to signify what state we are
+            currently in. DCWorkflow only returns what transitions are
+            available. But we want to visually represent what *state* we
+            are currently in along with possible transitions.
+          </span>
+
+          <input class="noborder"
+                 id="workflow_action"
+                 type="radio"
+                 name="workflow_action"
+                 title=""
+                 value=""
+                 tal:attributes="value review_state;
+                                 title review_state;
+                                 checked python:test(request.get('workflow_action', review_state)==review_state,1,0);" />
+          <label for="workflow_action"
+                 i18n:translate="label_no_change">No change</label>
+          <br />
+
+          <tal:block define="transitions python:wtool.getTransitionsFor(target, here)"
+                     repeat="transition transitions">
+            <input class="noborder"
+                   id=""
+                   type="radio"
+                   name="workflow_action"
+                   title=""
+                   value=""
+                   i18n:attributes="title"
+                   tal:attributes="value transition/id;
+                                   id    transition/id;
+                                   title transition/name;
+                                   checked python:test(transition.get('id') == request.get('workflow_action', ''), 'checked', None)" />
+            <label for=""
+                   i18n:translate=""
+                   tal:attributes="for transition/id;"
+                   tal:content="transition/name"
+                   >Transition Name</label>
+            <br />
+          </tal:block>
+          <br />
+          <input type="submit" value="Save" />
+
+        </div>
+
+      </div>
+    </form>
+  </tal:main-macro>
+</div>
+
+</body>
+</html>

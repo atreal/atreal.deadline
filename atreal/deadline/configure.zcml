@@ -1,0 +1,37 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="atreal.deadline">
+
+  <include package="zope.app.annotation" />
+
+  <five:implements class="Products.ATContentTypes.content.base.ATCTMixin"
+	      interface=".interfaces.IDeadlineAware
+                         zope.app.annotation.interfaces.IAttributeAnnotatable" />
+
+  <adapter for=".interfaces.IDeadlineAware"
+	   factory=".adapters.ToDeadlineableObject"
+	   provides=".interfaces.IDeadlineable" />
+
+  <adapter for=".interfaces.IDeadlineAware"
+	   factory=".adapters.DeadlineableToEventObject"
+	   provides="p4a.calendar.interfaces.IEvent" />
+
+  <browser:page
+      for=".interfaces.IDeadlineAware"
+      name="deadline_provider"
+      class=".views.DeadlineProvider"
+      permission="zope.Public"
+      allowed_interface=".interfaces.IDeadlineProvider"
+      />
+
+  <subscriber
+      for=".interfaces.IDeadlineAware
+           Products.WorkflowEvents.interfaces.IAfterTransitionEvent"
+      handler=".events.storeDeadlineInWorkflowHistory"
+      />
+  
+  <include package=".browser" />
+
+</configure>
