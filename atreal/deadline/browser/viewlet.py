@@ -3,7 +3,7 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot
 from plone.app.layout.viewlets import ViewletBase
 from Products.statusmessages.interfaces import IStatusMessage
 
-from atreal.deadline.interfaces import IDeadline
+from atreal.deadline.interfaces import IDeadlineable
 #from atreal.deadline.browser.controlpanel import IDeadlineSchema
 
 class DeadlineViewlet(ViewletBase):

@@ -13,10 +13,10 @@
   <adapter for=".interfaces.IDeadlineAware"
 	   factory=".adapters.ToDeadlineableObject"
 	   provides=".interfaces.IDeadlineable" />
-
-  <adapter for=".interfaces.IDeadlineAware"
-	   factory=".adapters.DeadlineableToEventObject"
-	   provides="p4a.calendar.interfaces.IEvent" />
+<!---->
+<!--  <adapter for=".interfaces.IDeadlineAware"-->
+<!--	   factory=".adapters.DeadlineableToEventObject"-->
+<!--	   provides="p4a.calendar.interfaces.IEvent" />-->
 
   <!--<browser:page-->
   <!--    for=".interfaces.IDeadlineAware"-->
