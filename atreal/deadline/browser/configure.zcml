@@ -12,15 +12,15 @@
         permission="zope2.View"
         layer="atreal.deadline.interfaces.IDeadlineLayer"
         />
-    <!---->
-    <!--<browser:page-->
-    <!--    for=".interfaces.IDeadlineAware"-->
-    <!--    name="deadline_provider"-->
-    <!--    class=".views.DeadlineProvider"-->
-    <!--    permission="zope.Public"-->
-    <!--    allowed_interface="atreal.deadline.interfaces.IDeadlineProvider"-->
-    <!--    layer="atreal.deadline.interfaces.IDeadlineLayer"-->
-    <!--    />-->
+    
+    <browser:page
+        for="atreal.deadline.interfaces.IDeadlineAware"
+        name="deadline_provider"
+        class=".views.DeadlineProvider"
+        permission="zope.Public"
+        allowed_interface="atreal.deadline.interfaces.IDeadlineProvider"
+        layer="atreal.deadline.interfaces.IDeadlineLayer"
+        />
 
     <browser:resource
         file="atreal.deadline.js"

@@ -8,3 +8,6 @@ from atreal.deadline.config  import GLOBALS
 
 # register skin directories so they can be added to portal_skins
 # registerDirectory('skins', GLOBALS)
+
+def initialize(context):
+    """Initializer called when used as a Zope 2 product."""

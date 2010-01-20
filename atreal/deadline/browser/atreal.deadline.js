@@ -36,19 +36,37 @@ function debug (value){
 }; 
 
 function displayDeadlineForm() {
-    //if (jq("#deadline-form").is(":hidden")) {
-    jq("#deadline-form").slideDown(1000);
-    //}
-    //else {
-        //jq("#deadline-form").hide();
-    //}
+    if (jq("#deadline-form").is(":hidden")) {
+        jq("#deadline-form").slideDown("slow");
+    }
+    else {
+        jq("#deadline-form").slideUp("slow");
+    }
+};
+
+function displayDeadlineHistory() {
+    if (jq("#deadline-history").is(":hidden")) {
+        jq("#deadline-history").slideDown("slow");
+    }
+    else {
+        jq("#deadline-history").slideUp("slow");
+    }
+};
+
+function deleteDeadline() {
+    if (jq("#deadline-form").is(":visible")) {
+        jq("#deadline-form").slideUp("slow");
+    }
+    jq(".deadline span.dl-add").show();
+    jq(".deadline span.dl-modify").hide();
+    jq(this).hide();
 };
 
 function initializeDeadline() {
-    //jq('#deadline').click(alert('yo!'))
-    jq("#deadline span.add").click(displayDeadlineForm)
+    jq(".deadline span.dl-add").click(displayDeadlineForm);
+    jq(".deadline span.dl-modify").click(displayDeadlineForm);
+    jq(".deadline span.dl-history").click(displayDeadlineHistory);
+    jq(".deadline span.dl-delete").click(deleteDeadline);
 };
 
-jq("#deadline-form").hide();
-displayDeadlineForm();
-//jq(initializeDeadline);
+jq(initializeDeadline);
