@@ -5,20 +5,8 @@
      id="content-deadline"
      i18n:domain="atreal.deadline"
      tal:condition="python:True">
-
-  <script>
-    jq('#deadline span.add').click(function () {
-    if (jq("#deadline-form").is(":hidden")) {
-    jq("#deadline-form").slideDown("slow");
-    } else {
-    jq("#deadline-form").hide();
-    }
-    });
   
-  </script>
-
-  
-  <dl id="deadline" class="collapsible collapsedOnLoad">
+  <dl><!-- id="deadline" class="collapsible collapsedOnLoad">-->
     <dt class="collapsibleHeader" i18n:translate="label_deadline">Deadline</dt>
     <dd class="collapsibleContent">
           
@@ -26,7 +14,7 @@
         Deadline here
       </div>
         
-      <div id="deadline-form" style="display:none">
+      <div id="deadline-form" style="">
         <form method="POST" 
               tal:attributes="action string:${here/absolute_url}/@@deadline_provider/submitDeadlineForm"
               tal:define="uniqueItemIndex view/uniqueItemIndex">

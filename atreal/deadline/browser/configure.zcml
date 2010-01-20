@@ -22,6 +22,12 @@
     <!--    layer="atreal.deadline.interfaces.IDeadlineLayer"-->
     <!--    />-->
 
+    <browser:resource
+        file="atreal.deadline.js"
+        name="atreal.deadline.js"
+        />
+
+
   <!--menu
       id="object_buttons"
       title="Plone Content tabs"
