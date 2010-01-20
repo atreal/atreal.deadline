@@ -1,16 +1,26 @@
 <configure
     xmlns="http://namespaces.zope.org/browser"
     xmlns:zope="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="atreal.deadline">
 
     <browser:viewlet
         for="atreal.deadline.interfaces.IDeadlineAware"
         name="atreal.deadline"
-        manager="plone.app.layout.viewlets.interfaces.IAboveContent"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
         class=".viewlet.DeadlineViewlet"
         permission="zope2.View"
-        layer="atreal.deadline.interfaces.IDedalineLayer"
+        layer="atreal.deadline.interfaces.IDeadlineLayer"
         />
+    <!---->
+    <!--<browser:page-->
+    <!--    for=".interfaces.IDeadlineAware"-->
+    <!--    name="deadline_provider"-->
+    <!--    class=".views.DeadlineProvider"-->
+    <!--    permission="zope.Public"-->
+    <!--    allowed_interface="atreal.deadline.interfaces.IDeadlineProvider"-->
+    <!--    layer="atreal.deadline.interfaces.IDeadlineLayer"-->
+    <!--    />-->
 
   <!--menu
       id="object_buttons"

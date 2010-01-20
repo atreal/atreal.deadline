@@ -4,12 +4,96 @@
      class="deadline"
      id="content-deadline"
      i18n:domain="atreal.deadline"
-     tal:condition="history">
- 
-    <dl id="deadline" class="collapsible collapsedOnLoad">
-        <dt class="collapsibleHeader" i18n:translate="label_history">History</dt>
-        <dd class="collapsibleContent">
-        </dd>
-    </dl>
+     tal:condition="python:True">
+
+  <script>
+    jq('#deadline span.add').click(function () {
+    if (jq("#deadline-form").is(":hidden")) {
+    jq("#deadline-form").slideDown("slow");
+    } else {
+    jq("#deadline-form").hide();
+    }
+    });
+  
+  </script>
+
+  
+  <dl id="deadline" class="collapsible collapsedOnLoad">
+    <dt class="collapsibleHeader" i18n:translate="label_deadline">Deadline</dt>
+    <dd class="collapsibleContent">
+          
+      <div>
+        Deadline here
+      </div>
+        
+      <div id="deadline-form" style="display:none">
+        <form method="POST" 
+              tal:attributes="action string:${here/absolute_url}/@@deadline_provider/submitDeadlineForm"
+              tal:define="uniqueItemIndex view/uniqueItemIndex">
+          <div class="field"
+               tal:define="inputname  string:Deadline;
+                           formname   string:deadline_form;
+                           inputvalue view/deadline;">
+            <label for="Deadline">Deadline</label>
+            <div metal:use-macro="here/calendar_macros/macros/calendarDatePickerBox" />
+          </div>
+        
+          <div class="field">
+            <label for="comment" 
+                   i18n:translate="label_comments">Comments</label>
+    
+            <div class="formHelp"
+                 i18n:translate="help_comments">
+              Will be added to the publishing history. If multiple
+              items are selected, this comment will be attached to all
+              of them.
+            </div>
+            <textarea id="comment"
+                      name="comment"
+                      cols="60"
+                      rows="5"
+                      tal:content="request/comment|nothing">
+            </textarea>
+          </div>      
+          <!--<div class="field">-->
+          <!--  <label for="Responsible">Responsible</label>-->
+          <!--  <div>-->
+          <!--    <select name="Responsible" id="Responsible" tal:define="responsible here/@@deadline_provider/getResponsible">-->
+          <!--      <tal:users repeat="user here/@@deadline_provider/getPossibleResponsible">-->
+          <!--        <option tal:content="user/fullname"-->
+          <!--                tal:attributes="value user/id; selected python:responsible==user['id']" />-->
+          <!--      </tal:users>-->
+          <!--    </select>-->
+          <!--  </div>-->
+          <!--</div>-->
       
+          <input type="submit" value="Save" />
+    
+        </form>
+      </div>
+            
+      <div class="actions"
+           tal:condition="python:True">
+        <ul>
+          <li>
+            <span class="add" i18n:translate="add">Add</span>
+            <span class="modify" i18n:translate="modify">Modify</span>
+          </li>
+        </ul>
+      </div>
+      
+      <table class="listing sort" summary="Deadline history">
+        <tr>
+          <th i18n:translate="history">History</th>
+        </tr>
+        <tr>
+          <th i18n:translate="deadlines">Deadlines</th>
+          <th i18n:translate="comments">Comments</th>            
+        </tr>
+        <!--<td/>-->
+      </table>
+
+    </dd>
+  </dl>
+    
 </div>

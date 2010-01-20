@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <layers>
-    <layer name="atreal.accesstracking.layer"
-           interface="atreal.accesstracking.interfaces.IAccessTrackingLayer" />
+    <layer name="atreal.deadline.layer"
+           interface="atreal.deadline.interfaces.IDeadlineLayer" />
 </layers>

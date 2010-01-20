@@ -4,19 +4,20 @@ from Products.CMFPlone.CatalogTool import registerIndexableAttribute
 
 from DateTime import DateTime
 
-from p4a.calendar.interfaces import IEvent
+#from p4a.calendar.interfaces import IEvent
 
 from zope.interface import implements
 from BTrees.OOBTree import OOBTree
 from zope.app.annotation.interfaces import IAnnotations
 from Products.CMFCore.utils import getToolByName
-from Products.ARDeadline.interfaces import IDeadlineable
+from plone.indexer.decorator import indexer
+
+from atreal.deadline.interfaces import IDeadlineable
 
 
 class ToDeadlineableObject( object ):
 
-  implements( IDeadlineable )
-
+  implements(IDeadlineable)
 
   def __init__(self, context):
     self.key         = 'transition_deadline'
@@ -63,89 +64,19 @@ class ToDeadlineableObject( object ):
       return False
     return self.annotations[self.key]['responsible']
 
-class DeadlineableToEventObject( object ):
-
-  implements( IEvent )
-  
-  def __init__(self, context):
-    self.context = IDeadlineable(context)
-
-  def start(self):
-    return self.context.getDeadline()
-
-  def end(self):
-    return self.context.getDeadline()
-  
-  def getEventType(self):
-    return ("Deadline")
-
-def eventStartIndexWrapper(object, portal, **kwargs):
-  if object.portal_type=="Event":
-    return object.start()
-  try:
-    obj = IEvent(object)
-    start = obj.start()
-    if not start:
-      raise AttributeError
-    return start
-  except (ComponentLookupError, TypeError, ValueError):
-    # The catalog expects AttributeErrors when a value can't be found
-    raise AttributeError
-
-registerIndexableAttribute('start', eventStartIndexWrapper)
-
-def eventEndIndexWrapper(object, portal, **kwargs):
-  if object.portal_type=="Event":
-    return object.end()
-  try:
-    obj = IEvent(object)
-    end = obj.end()
-    if not end:
-      raise AttributeError
-    return end
-  except (ComponentLookupError, TypeError, ValueError):
-    # The catalog expects AttributeErrors when a value can't be found
-    raise AttributeError
-
-registerIndexableAttribute('end', eventEndIndexWrapper)
-
-def eventTypeIndexWrapper(object, portal, **kwargs):
-  if object.portal_type=="Event":
-    return object.getEventType()
-  try:
-    obj = IEvent(object)
-    eventType = obj.getEventType()
-    if not eventType:
-      raise AttributeError
-    return eventType
-  except (ComponentLookupError, TypeError, ValueError):
-    # The catalog expects AttributeErrors when a value can't be found
-    raise AttributeError
-
-registerIndexableAttribute('getEventType', eventTypeIndexWrapper)
-  
-def deadlineIndexWrapper(object, portal, **kwargs):
-  try:
-    obj = IDeadlineable(object)
-    deadline = obj.getDeadline()
-    if not deadline:
-      raise AttributeError
-    return deadline
-  except (ComponentLookupError, TypeError, ValueError):
-    # The catalog expects AttributeErrors when a value can't be found
-    raise AttributeError
-
-registerIndexableAttribute('workflow_deadline', deadlineIndexWrapper)
-
-def responsibleIndexWrapper(object, portal, **kwargs):
-  try:
-    obj = IDeadlineable(object)
-    responsible = obj.getResponsible()
-    if not responsible:
-      raise AttributeError
-    return responsible
-  except (ComponentLookupError, TypeError, ValueError):
-    # The catalog expects AttributeErrors when a value can't be found
-    raise AttributeError
-
-registerIndexableAttribute('workflow_responsible', responsibleIndexWrapper)
+#
+#class DeadlineableToEventObject( object ):
+#
+#  implements( IEvent )
+#  
+#  def __init__(self, context):
+#    self.context = IDeadlineable(context)
+#
+#  def start(self):
+#    return self.context.getDeadline()
+#
+#  def end(self):
+#    return self.context.getDeadline()
+#  
+#  def getEventType(self):
+#    return ("Deadline")

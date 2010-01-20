@@ -2,17 +2,35 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="atreal.deadline">
 
 
-  <five:implements class="Products.ATContentTypes.content.base.ATCTMixin"
-	      interface=".interfaces.IDeadlineAware"/>
+    <class class="Products.ATContentTypes.content.base.ATCTMixin">
+        <implements interface=".interfaces.IDeadlineAware"/>
+    </class>
   
                          <!--zope.app.annotation.interfaces.IAttributeAnnotatable" />-->
 
-  <adapter for=".interfaces.IDeadlineAware"
+    <adapter for=".interfaces.IDeadlineAware"
 	   factory=".adapters.ToDeadlineableObject"
 	   provides=".interfaces.IDeadlineable" />
+
+    
+    <adapter name="deadline" factory=".indexers.deadline_indexer" />
+
+
+    <genericsetup:registerProfile
+        name="default"
+        title="Deadline"
+        directory="profiles/default"
+        description="Dedaline profile"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <i18n:registerTranslations directory="locales"/>
+
 <!---->
 <!--  <adapter for=".interfaces.IDeadlineAware"-->
 <!--	   factory=".adapters.DeadlineableToEventObject"-->

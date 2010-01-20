@@ -1,9 +1,14 @@
 from zope.interface import Interface
 from zope.app.event.interfaces import IObjectModifiedEvent
 
+class IDeadlineLayer( Interface ):
+    """ Marker interface that defines a Zope 3 browser layer.
+    """
+
 
 class IDeadlineAware( Interface ):
   """ marker interface """
+
 
 class IDeadlineable( Interface ):
   
@@ -21,7 +26,8 @@ class IDeadlineable( Interface ):
     """
     Store the current deadline in workflow history
     """
-    
+
+
 class IDeadlineProvider( Interface ):
   
   def setDeadline( dueDate):

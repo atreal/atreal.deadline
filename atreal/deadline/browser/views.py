@@ -1,7 +1,7 @@
 # Imports: Zope
-from Acquisition import aq_inner
+#from Acquisition import aq_inner
 from Products.Five  import BrowserView
-from zope.event import notify
+#from zope.event import notify
 from zope.interface import implements
 
 # Imports: CMF
@@ -9,16 +9,16 @@ from Products.CMFCore.utils import getToolByName
 
 # Import Plone
 from Products.CMFPlone import MessageFactory
-mf = MessageFactory('eventsubscription')
+mf = MessageFactory('atreal.deadline')
 
-# Imports: ARDeadline
-from Products.ARDeadline.interfaces import IDeadlineable
-from Products.ARDeadline.interfaces import IDeadlineProvider
+# Imports: atreal.deadline
+from atreal.deadline.interfaces import IDeadlineable
+from atreal.deadline.interfaces import IDeadlineProvider
 
 
 class DeadlineProvider( BrowserView ):
 
-  implements( IDeadlineProvider )
+  implements(IDeadlineProvider)
 
   def __init__(self, context, request):
     self.context = context
