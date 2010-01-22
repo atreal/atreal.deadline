@@ -35,42 +35,53 @@ class DeadlineProvider( BrowserView ):
     """
     deadline = self.context.REQUEST['Deadline']
     self.object.setDeadline(deadline)
-  
-  def setDeadlineAndTransition(self):
-    """
-    """
-    deadline = self.context.REQUEST['Deadline']
-    self.object.setNextDeadline(deadline)
-    self.request.RESPONSE.redirect(self.request.get("orig_url"))
     
-  def getResponsible(self):
+  def getComment(self):
     """
     """
-    return self.object.getResponsible()
+    return self.object.getComment()
   
-  def setResponsible(self):
+  def setComment(self):
     """
     """
-    responsible = self.context.REQUEST['Responsible']
-    self.object.setResponsible(responsible)
-
-  def getPossibleResponsible(self):
-    """
-    """
-    infos = []
-    pmt = getToolByName(self, 'portal_membership')
-    infos = [dict(
-      id=member.id,
-      fullname=member.getProperty('fullname',None),
-      email=member.getProperty('email',None)
-    ) for member in pmt.listMembers()]
-    infos[0:0]=[dict(
-        id='',
-        fullname='Aucun',
-        email='contact@atreal.net',
-    )]
-    return infos
-
+    comment = self.context.REQUEST['comment']
+    self.object.setComment(comment)
+  #
+  #def setDeadlineAndTransition(self):
+  #  """
+  #  """
+  #  deadline = self.context.REQUEST['Deadline']
+  #  self.object.setNextDeadline(deadline)
+  #  self.request.RESPONSE.redirect(self.request.get("orig_url"))
+  #  
+  #def getResponsible(self):
+  #  """
+  #  """
+  #  return self.object.getResponsible()
+  #
+  #def setResponsible(self):
+  #  """
+  #  """
+  #  responsible = self.context.REQUEST['Responsible']
+  #  self.object.setResponsible(responsible)
+  #
+  #def getPossibleResponsible(self):
+  #  """
+  #  """
+  #  infos = []
+  #  pmt = getToolByName(self, 'portal_membership')
+  #  infos = [dict(
+  #    id=member.id,
+  #    fullname=member.getProperty('fullname',None),
+  #    email=member.getProperty('email',None)
+  #  ) for member in pmt.listMembers()]
+  #  infos[0:0]=[dict(
+  #      id='',
+  #      fullname='Aucun',
+  #      email='contact@atreal.net',
+  #  )]
+  #  return infos
+  #
   #def setDeadlineAndResponsible(self):
   #  """
   #  """
@@ -91,11 +102,17 @@ class DeadlineProvider( BrowserView ):
     if deadline == 'False':
         deadline = False
     
-    current_deadline = self.object.getDeadline()
+    if comment == '':
+        comment = False
     
     if deadline:
         self.object.setDeadline(deadline)
-    #    
+    
+    if comment:
+        self.object.setComment(comment)
+    
+    return self.request.RESPONSE.redirect(self.context.absolute_url())
+        #    
     #self.object.setResponsible(responsible)
     #msg="You successfully changed worklflow_deadline and workflow_responsible!"
     #self.context.plone_utils.addPortalMessage(msg)

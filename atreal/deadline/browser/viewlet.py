@@ -1,3 +1,5 @@
+from DateTime import DateTime
+
 from zope.component import queryUtility
 from zope.component import getMultiAdapter
 from Acquisition import aq_inner, aq_parent
@@ -30,30 +32,42 @@ class DeadlineViewlet(ViewletBase):
     
     def getDeadline(self):
         """ """
-        return self.deadline
+        if not self.deadline:
+            return self.deadline
+        dl = self.deadline.strftime("%d/%m/%Y à %Hh%M")
+        return dl
 
     def hasComment(self):
         """ """
-        # XXX
-        return True 
+        return True and self.comment or False
     
     def getComment(self):
         """ """
-        # XXX
-        return "Ceci é un commentaires"
+        return self.comment
 
+    def getConfig(self):
+        """ """
+        return dict(
+            deadline = self.hasDeadline() and self.deadline or DateTime(),
+            comment = self.comment,
+            show_hm = 1,
+            show_ymd = 1,
+            starting_year = 2010,
+            ending_year = 2020,
+        )
     
     def update(self):
         """ """
         super(DeadlineViewlet, self).update()
-        #self.obj = IDeadlineable(self.context)
         self.deadlineProvider = getMultiAdapter((self.context, self.request),
                                             name=u'deadline_provider')
         self.deadline = self.deadlineProvider.getDeadline()
+        self.comment = self.deadlineProvider.getComment()
         try:
             self.uniqueItemIndex = aq_inner(self).view._data['uniqueItemIndex']
         except:
             self.uniqueItemIndex = utils.RealIndexIterator(pos=0) # @@manage-viewlets or other
+            
         #siteroot = queryUtility(IPloneSiteRoot)
         #conf = IDeadlineSchema(siteroot)
         #if not getattr(conf, 'actr_active', True):

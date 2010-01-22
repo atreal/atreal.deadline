@@ -35,8 +35,16 @@ function debug (value){
     alert(value);
 }; 
 
+var deadline_3rd_party_scripts = false;
+
 function displayDeadlineForm() {
     if (jq("#deadline-form").is(":hidden")) {
+        if (!deadline_3rd_party_scripts) {
+            var site_url = jq("#deadline-display").attr('class') 
+            jq.getScript(site_url + '/jscalendar/calendar_stripped.js');
+            jq.getScript(site_url + '/jscalendar/calendar-en.js');
+            deadline_3rd_party_scripts = true;
+        }
         jq("#deadline-form").slideDown("slow");
     }
     else {
@@ -67,6 +75,7 @@ function initializeDeadline() {
     jq(".deadline span.dl-modify").click(displayDeadlineForm);
     jq(".deadline span.dl-history").click(displayDeadlineHistory);
     jq(".deadline span.dl-delete").click(deleteDeadline);
+
 };
 
 jq(initializeDeadline);

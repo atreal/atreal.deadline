@@ -26,19 +26,5 @@
         file="atreal.deadline.js"
         name="atreal.deadline.js"
         />
-
-
-  <!--menu
-      id="object_buttons"
-      title="Plone Content tabs"
-      />
-
-  <menuItem
-      for="Products.ARDeadline.interfaces.IDeadlineAware"
-      menu="object_buttons"
-      title="Configure Deadline"
-      action="${object_url}/deadline_view"
-      permission="cmf.ModifyPortalContent"
-      /-->
       
 </configure>

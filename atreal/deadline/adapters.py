@@ -27,8 +27,9 @@ class ToDeadlineableObject( object ):
       self.annotations[self.key] = OOBTree()
   
   def setDeadline(self, deadline):
-    if deadline:
-      deadline= DateTime(deadline)
+    if  not deadline:
+      return
+    deadline = DateTime(deadline)
     self.annotations[self.key]['deadline'] = deadline
     self.context.reindexObject()
   
@@ -37,32 +38,44 @@ class ToDeadlineableObject( object ):
       return False
     return self.annotations[self.key]['deadline']
 
-  def setNextDeadline(self, deadline):
-    if deadline:
-      deadline = DateTime(deadline)
-    self.annotations[self.key]['nextDeadline'] = deadline
-  
-  def getNextDeadline(self):
-    if 'nextDeadline' not in self.annotations[self.key]:
-      return False
-    return self.annotations[self.key]['nextDeadline']
-  
-
-  def storeDeadlineInWorkflowHistory(self):
-    deadline=self.getDeadline()
-    for wfid, wflow in self.context.workflow_history.items():
-      wflow[-1]['deadline']=deadline
-    self.setDeadline(self.getNextDeadline())
-    self.setNextDeadline(False)
-    
-  def setResponsible(self, responsible):
-    self.annotations[self.key]['responsible'] = responsible
+  def setComment(self, comment):
+    if not comment:
+      return
+    self.annotations[self.key]['comment'] = comment
     self.context.reindexObject()
+  
+  def getComment(self):
+    if 'comment' not in self.annotations[self.key]:
+      return ''
+    return self.annotations[self.key]['comment']
 
-  def getResponsible(self):
-    if 'responsible' not in self.annotations[self.key]:
-      return False
-    return self.annotations[self.key]['responsible']
+  #
+  #def setNextDeadline(self, deadline):
+  #  if deadline:
+  #    deadline = DateTime(deadline)
+  #  self.annotations[self.key]['nextDeadline'] = deadline
+  #
+  #def getNextDeadline(self):
+  #  if 'nextDeadline' not in self.annotations[self.key]:
+  #    return False
+  #  return self.annotations[self.key]['nextDeadline']
+  #
+  #
+  #def storeDeadlineInWorkflowHistory(self):
+  #  deadline=self.getDeadline()
+  #  for wfid, wflow in self.context.workflow_history.items():
+  #    wflow[-1]['deadline']=deadline
+  #  self.setDeadline(self.getNextDeadline())
+  #  self.setNextDeadline(False)
+  #  
+  #def setResponsible(self, responsible):
+  #  self.annotations[self.key]['responsible'] = responsible
+  #  self.context.reindexObject()
+  #
+  #def getResponsible(self):
+  #  if 'responsible' not in self.annotations[self.key]:
+  #    return False
+  #  return self.annotations[self.key]['responsible']
 
 #
 #class DeadlineableToEventObject( object ):

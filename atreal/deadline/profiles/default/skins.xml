@@ -5,5 +5,10 @@
  <object name="atreal_deadline_styles"
     meta_type="Filesystem Directory View"
     directory="atreal.deadline:skins/atreal_deadline_styles"/>
+ 
+ <skin-path name="Plone Default">
+  <layer name="atreal_deadline_styles"
+     insert-after="custom"/>
+ </skin-path>
 
 </object>
