@@ -4,7 +4,7 @@ from DateTime import DateTime
 
 from zope.interface import implements
 from BTrees.OOBTree import OOBTree
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 
 from atreal.deadline.interfaces import IDeadlineable
 
@@ -25,7 +25,7 @@ class ToDeadlineableObject( object ):
       return
     deadline = DateTime(deadline)
     self.annotations[self.key]['deadline'] = deadline
-    self.context.reindexObject(idxs=['transition_deadline']) # XXX reindex only the right index
+    self.context.reindexObject(idxs=['deadline']) # XXX reindex only the right index
   
   def getDeadline(self):
     if 'deadline' not in self.annotations[self.key]:
