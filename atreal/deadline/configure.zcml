@@ -11,15 +11,11 @@
         <implements interface=".interfaces.IDeadlineAware"/>
     </class>
   
-                         <!--zope.app.annotation.interfaces.IAttributeAnnotatable" />-->
-
     <adapter for=".interfaces.IDeadlineAware"
 	   factory=".adapters.ToDeadlineableObject"
 	   provides=".interfaces.IDeadlineable" />
-
     
     <adapter name="deadline" factory=".indexers.deadline_indexer" />
-
 
     <genericsetup:registerProfile
         name="default"
@@ -32,25 +28,11 @@
     <i18n:registerTranslations directory="locales"/>
 
     <include file="skins.zcml" />
-<!---->
-<!--  <adapter for=".interfaces.IDeadlineAware"-->
-<!--	   factory=".adapters.DeadlineableToEventObject"-->
-<!--	   provides="p4a.calendar.interfaces.IEvent" />-->
-
-  <!--<browser:page-->
-  <!--    for=".interfaces.IDeadlineAware"-->
-  <!--    name="deadline_provider"-->
-  <!--    class=".views.DeadlineProvider"-->
-  <!--    permission="zope.Public"-->
-  <!--    allowed_interface=".interfaces.IDeadlineProvider"-->
-  <!--    />-->
-
-  <!--<subscriber-->
-  <!--    for=".interfaces.IDeadlineAware-->
-  <!--         Products.WorkflowEvents.interfaces.IAfterTransitionEvent"-->
-  <!--    handler=".events.storeDeadlineInWorkflowHistory"-->
-  <!--    />-->
+    <!---->
+    <!--<adapter for=".interfaces.IDeadlineAware"-->
+    <!--    factory=".adapters.DeadlineableToEventObject"-->
+    <!--    provides="p4a.calendar.interfaces.IEvent" />-->
   
-  <include package=".browser" />
+    <include package=".browser" />
 
 </configure>

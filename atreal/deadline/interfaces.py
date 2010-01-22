@@ -13,19 +13,22 @@ class IDeadlineAware( Interface ):
 class IDeadlineable( Interface ):
   
   def setDeadline( dueDate):
-    """
-    Sets the deadline of the next transition
-    """
+    """ Sets the deadline of the next transition """
   
   def getDeadline( ):
-    """
-    Get the deadline of the next transition
-    """
+    """ Get the deadline of the next transition """
 
-  def storeDeadlineInWorkflowHistory( ):
-    """
-    Store the current deadline in workflow history
-    """
+  def setComment(self, comment):
+    """ Set the comment """
+
+  def getComment(self):
+    """ Get the comment """
+    
+  def addHistoryEntry(self):
+    """ Add a new entry in the deadline history """
+
+  def getHistory(self):
+    """ Get the deadline history """    
 
 
 class IDeadlineProvider( Interface ):
@@ -40,31 +43,18 @@ class IDeadlineProvider( Interface ):
     Get the deadline of the next transition
     """
 
-  def setDeadlineAndTransition( ):
-    """
-    Sets the deadline of the next transition and traverse_to the transition cpy
-    """
+  def getComment(self):
+      """
+      """
   
-  def getResponsible( ):
-    """
-    """
+  def setComment(self):
+      """
+      """
   
-  def setResponsible( ):
-    """
-    """
-
-  def getPossibleResponsible( ):
-    """
-    Return all possible responsible users for this object (called from deadline_view.pt)
-    """
-  
-  def setDeadlineAndResponsible(self):
-    """
-    Sets the deadline of the next transition and the responsible for this object (called from deadline_view.pt)
-    """
-    
+  def getHistory(self):
+      """
+      """
 
   def submitDeadlineForm(self):
     """
-    Handles the form of deadline_view.pt
     """

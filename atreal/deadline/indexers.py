@@ -1,4 +1,5 @@
 from plone.indexer.decorator import indexer
+from zope.component.exceptions import ComponentLookupError
 
 from atreal.deadline.interfaces import IDeadlineable, IDeadlineAware
 

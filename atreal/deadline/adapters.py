@@ -1,7 +1,3 @@
-from zope.component.exceptions import ComponentLookupError
-
-from Products.CMFPlone.CatalogTool import registerIndexableAttribute
-
 from DateTime import DateTime
 
 #from p4a.calendar.interfaces import IEvent
@@ -9,8 +5,6 @@ from DateTime import DateTime
 from zope.interface import implements
 from BTrees.OOBTree import OOBTree
 from zope.app.annotation.interfaces import IAnnotations
-from Products.CMFCore.utils import getToolByName
-from plone.indexer.decorator import indexer
 
 from atreal.deadline.interfaces import IDeadlineable
 
@@ -31,7 +25,7 @@ class ToDeadlineableObject( object ):
       return
     deadline = DateTime(deadline)
     self.annotations[self.key]['deadline'] = deadline
-    self.context.reindexObject()
+    self.context.reindexObject(idxs=['transition_deadline']) # XXX reindex only the right index
   
   def getDeadline(self):
     if 'deadline' not in self.annotations[self.key]:
@@ -49,25 +43,24 @@ class ToDeadlineableObject( object ):
       return ''
     return self.annotations[self.key]['comment']
 
-  #
-  #def setNextDeadline(self, deadline):
-  #  if deadline:
-  #    deadline = DateTime(deadline)
-  #  self.annotations[self.key]['nextDeadline'] = deadline
-  #
-  #def getNextDeadline(self):
-  #  if 'nextDeadline' not in self.annotations[self.key]:
-  #    return False
-  #  return self.annotations[self.key]['nextDeadline']
-  #
-  #
-  #def storeDeadlineInWorkflowHistory(self):
-  #  deadline=self.getDeadline()
-  #  for wfid, wflow in self.context.workflow_history.items():
-  #    wflow[-1]['deadline']=deadline
-  #  self.setDeadline(self.getNextDeadline())
-  #  self.setNextDeadline(False)
-  #  
+  def addHistoryEntry(self):
+    """ """
+    if 'history' not in self.annotations[self.key]:
+      self.annotations[self.key]['history'] = []
+    history = self.annotations[self.key]['history']
+    if len(history) and (DateTime(self.getDeadline()) == history[-1][0]):
+      # The deadline didn't change
+      self.annotations[self.key]['history'][-1][1] = self.getComment()
+    else:
+      self.annotations[self.key]['history'].append([self.getDeadline(),
+                                                 self.getComment()])
+
+  def getHistory(self):
+    """ """
+    if 'history' not in self.annotations[self.key]:
+      return []
+    return self.annotations[self.key]['history']
+
   #def setResponsible(self, responsible):
   #  self.annotations[self.key]['responsible'] = responsible
   #  self.context.reindexObject()

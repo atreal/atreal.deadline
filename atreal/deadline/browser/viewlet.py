@@ -1,8 +1,7 @@
 from DateTime import DateTime
 
-from zope.component import queryUtility
 from zope.component import getMultiAdapter
-from Acquisition import aq_inner, aq_parent
+from Acquisition import aq_inner
 from AccessControl import getSecurityManager
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from plone.app.layout.viewlets import ViewletBase
@@ -10,14 +9,12 @@ from Products.statusmessages.interfaces import IStatusMessage
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import utils
 
-from atreal.deadline.interfaces import IDeadlineable
+from Products.CMFPlone import MessageFactory
+_ = MessageFactory('atreal.deadline')
+
 #from atreal.deadline.browser.controlpanel import IDeadlineSchema
 
 class DeadlineViewlet(ViewletBase):
-    
-    #def site_url(self):
-    #    """ """
-    #    return self.site_url
     
     def canModify(self):
         """ """
@@ -45,6 +42,15 @@ class DeadlineViewlet(ViewletBase):
         """ """
         return self.comment
 
+    def getHistory(self):
+        """ """
+        for deadline, comment in self.history:
+            yield dict(
+                deadline = deadline.strftime("%d/%m/%Y à %Hh%M"),
+                comment = comment,
+            )
+
+
     def getConfig(self):
         """ """
         return dict(
@@ -63,6 +69,7 @@ class DeadlineViewlet(ViewletBase):
                                             name=u'deadline_provider')
         self.deadline = self.deadlineProvider.getDeadline()
         self.comment = self.deadlineProvider.getComment()
+        self.history = self.deadlineProvider.getHistory()
         try:
             self.uniqueItemIndex = aq_inner(self).view._data['uniqueItemIndex']
         except:
@@ -72,11 +79,6 @@ class DeadlineViewlet(ViewletBase):
         #conf = IDeadlineSchema(siteroot)
         #if not getattr(conf, 'actr_active', True):
         #    return
-        #super(DeadlineViewlet, self).update()
-        #actr = IDeadline(self.context)
-        #try:
-        #    actr.storeAccess()
-        #except DeadlineError, e:
         #    IStatusMessage(self.request).addStatusMessage(e.args[0], type='error') 
 
     index = ViewPageTemplateFile("deadline.pt")      

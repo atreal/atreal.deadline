@@ -32,21 +32,20 @@ div.deadline div.field {
     
 }
 
-div.deadline div#deadline-display {
+div.deadline #deadline-display {
     border-top: 1px solid #fff;
     padding:0.5em;
 }
 
-div.deadline div#deadline-form {
+div.deadline #deadline-form {
     border-top: 1px solid #fff;
     padding:0.5em;
 }
 
-div.deadline div#deadline-history {
+div.deadline #deadline-history {
     border-top: 1px solid #fff;
     padding:0.5em;
 }
-
 
 div.deadline .dl-comment  {
     /*padding:0 0.2em;*/
@@ -56,6 +55,13 @@ div.deadline .dl-comment  {
     
 }
 
+div.deadline #deadline-history table {
+    background:#fff;
+}
+
+div.deadline #deadline-history span {
+    font-weight:bold;
+}
 
 div.deadline span.action  {
     padding-left:20px;
