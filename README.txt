@@ -8,8 +8,8 @@ stored in an index, making them searchable.
 
 TODO
 ----
-
+ * Ajaxify the deadline save
  * ImplementsIEvent interface
  * Control panel to select which CT provides deadline interface
- * Integrate deadline history in global history (?)
- * Add index in an alternative step to avoid reindexing at install time
+ * Integrate deadline history in global history (? - f10w mentionned it)
+ * Add index in alternative step to avoid reindexing at install time

@@ -9,7 +9,7 @@
         name="atreal.deadline"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
         class=".viewlet.DeadlineViewlet"
-        permission="zope2.View"
+        permission="atreal.deadline.ViewDeadline"
         layer="atreal.deadline.interfaces.IDeadlineLayer"
         />
     
@@ -17,7 +17,7 @@
         for="atreal.deadline.interfaces.IDeadlineAware"
         name="deadline_provider"
         class=".views.DeadlineProvider"
-        permission="zope.Public"
+        permission="atreal.deadline.ModifyDeadline"
         allowed_interface="atreal.deadline.interfaces.IDeadlineProvider"
         layer="atreal.deadline.interfaces.IDeadlineLayer"
         />

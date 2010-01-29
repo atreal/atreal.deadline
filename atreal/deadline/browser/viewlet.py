@@ -18,7 +18,7 @@ class DeadlineViewlet(ViewletBase):
     
     def canModify(self):
         """ """
-        if getSecurityManager().checkPermission('Modify portal content',
+        if getSecurityManager().checkPermission('Deadline: Modify deadline',
                                                 self.context):
             return True
         return False

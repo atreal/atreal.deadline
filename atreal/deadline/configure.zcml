@@ -17,6 +17,16 @@
     
     <adapter name="deadline" factory=".indexers.deadline_indexer" />
 
+    <permission
+        id="atreal.deadline.ViewDeadline"
+        title="Deadline: View deadline"
+        />
+
+    <permission
+        id="atreal.deadline.ModifyDeadline"
+        title="Deadline: Modify deadline"
+        />
+
     <genericsetup:registerProfile
         name="default"
         title="Deadline"
