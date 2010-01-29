@@ -14,7 +14,7 @@ class ToDeadlineableObject( object ):
   implements(IDeadlineable)
 
   def __init__(self, context):
-    self.key         = 'transition_deadline'
+    self.key         = self.__class__.__name__
     self.context     = context
     self.annotations = IAnnotations(context)
     if not self.annotations.get(self.key, None):
