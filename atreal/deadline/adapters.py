@@ -1,7 +1,8 @@
 from DateTime import DateTime
 
-#from p4a.calendar.interfaces import IEvent
+from dateable.kalends import IEvent
 
+from Products.CMFCore.utils import getToolByName
 from zope.interface import implements
 from BTrees.OOBTree import OOBTree
 from zope.annotation.interfaces import IAnnotations
@@ -61,28 +62,19 @@ class ToDeadlineableObject( object ):
       return []
     return self.annotations[self.key]['history']
 
-  #def setResponsible(self, responsible):
-  #  self.annotations[self.key]['responsible'] = responsible
-  #  self.context.reindexObject()
-  #
-  #def getResponsible(self):
-  #  if 'responsible' not in self.annotations[self.key]:
-  #    return False
-  #  return self.annotations[self.key]['responsible']
 
-#
-#class DeadlineableToEventObject( object ):
-#
-#  implements( IEvent )
-#  
-#  def __init__(self, context):
-#    self.context = IDeadlineable(context)
-#
-#  def start(self):
-#    return self.context.getDeadline()
-#
-#  def end(self):
-#    return self.context.getDeadline()
-#  
-#  def getEventType(self):
-#    return ("Deadline")
+class DeadlineableToEventObject( object ):
+
+  def __init__(self, context):
+    self.context = IDeadlineable(context)
+
+  def start(self):
+    return self.context.getDeadline()
+
+  def end(self):
+    return self.context.getDeadline()
+  
+  def getEventType(self):
+    return ("Deadline")
+   
+  

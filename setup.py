@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0beta1'
+version = '1.1beta1'
 
 setup(name='atreal.deadline',
       version=version,
@@ -24,6 +24,7 @@ setup(name='atreal.deadline',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'dateable.kalends',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
