@@ -1,8 +1,5 @@
 from DateTime import DateTime
 
-from dateable.kalends import IEvent
-
-from Products.CMFCore.utils import getToolByName
 from zope.interface import implements
 from BTrees.OOBTree import OOBTree
 from zope.annotation.interfaces import IAnnotations
@@ -26,7 +23,7 @@ class ToDeadlineableObject( object ):
       return
     deadline = DateTime(deadline)
     self.annotations[self.key]['deadline'] = deadline
-    self.context.reindexObject(idxs=['deadline', 'start', 'end']) # XXX reindex only the right index
+    self.context.reindexObject(idxs=['deadline', 'start', 'end'])
   
   def getDeadline(self):
     if 'deadline' not in self.annotations[self.key]:
@@ -37,7 +34,6 @@ class ToDeadlineableObject( object ):
     if not comment:
       return
     self.annotations[self.key]['comment'] = comment
-    self.context.reindexObject()
   
   def getComment(self):
     if 'comment' not in self.annotations[self.key]:
@@ -76,5 +72,4 @@ class DeadlineableToEventObject( object ):
   
   def getEventType(self):
     return ("Deadline")
-   
   

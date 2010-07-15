@@ -4,9 +4,6 @@ from Products.Five  import BrowserView
 #from zope.event import notify
 from zope.interface import implements
 
-# Imports: CMF
-from Products.CMFCore.utils import getToolByName
-
 # Import Plone
 from Products.CMFPlone import MessageFactory
 mf = MessageFactory('atreal.deadline')

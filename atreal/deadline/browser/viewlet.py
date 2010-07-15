@@ -3,9 +3,7 @@ from DateTime import DateTime
 from zope.component import getMultiAdapter
 from Acquisition import aq_inner
 from AccessControl import getSecurityManager
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from plone.app.layout.viewlets import ViewletBase
-from Products.statusmessages.interfaces import IStatusMessage
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import utils
 
