@@ -27,10 +27,10 @@ def eventEnd_indexer(object):
     return object.end()
   try:
     obj = IEvent(object)
-    start = obj.start()
-    if not start:
+    end = obj.end()
+    if not end:
       raise AttributeError
-    return start
+    return end
   except (ComponentLookupError, TypeError, ValueError):
     # The catalog expects AttributeErrors when a value can't be found
     raise AttributeError
