@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.1beta1'
+version = '1.1beta2'
 
 setup(name='atreal.deadline',
       version=version,
