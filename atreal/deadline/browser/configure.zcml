@@ -22,6 +22,18 @@
         layer="atreal.deadline.interfaces.IDeadlineLayer"
         />
 
+    <browser:page
+        for="atreal.deadline.interfaces.IDeadlineAware"
+        name="deadline_management"
+        class=".views.DeadlineProvider"
+        allowed_attributes="deleteDeadline"
+        permission="atreal.deadline.ModifyDeadline"
+        allowed_interface="atreal.deadline.interfaces.IDeadlineProvider"
+        layer="atreal.deadline.interfaces.IDeadlineLayer"
+        />
+
+
+
     <browser:resource
         file="atreal.deadline.js"
         name="atreal.deadline.js"

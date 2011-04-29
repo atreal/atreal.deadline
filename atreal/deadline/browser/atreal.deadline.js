@@ -7,12 +7,6 @@ function debug (value){
 
 function displayDeadlineForm() {
     if (jq("#deadline-form").is(":hidden")) {
-        //if (!deadline_3rd_party_scripts) {
-        //    var site_url = jq("#deadline-display").attr('class') 
-        //    jq.getScript(site_url + '/jscalendar/calendar_stripped.js');
-        //    jq.getScript(site_url + '/jscalendar/calendar-en.js');
-        //    deadline_3rd_party_scripts = true;
-        //}
         jq("#deadline-form").slideDown("slow");
     }
     else {
@@ -30,7 +24,7 @@ function displayDeadlineHistory() {
 };
 
 function deleteDeadline() {
-    target_url = jq(this).parent().attr("class") + '/@@deadline_provider/deleteDeadline'
+    target_url = jq(this).parent().attr("class") + '/@@deadline_management/deleteDeadline'
     jq.get(target_url);
     if (jq("#deadline-form").is(":visible")) {
         jq("#deadline-form").slideUp("slow");
