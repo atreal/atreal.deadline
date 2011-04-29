@@ -1,3 +1,5 @@
+import time
+
 # Imports: Zope
 #from Acquisition import aq_inner
 from Products.Five  import BrowserView
@@ -64,10 +66,15 @@ class DeadlineProvider( BrowserView ):
         comment = self.request['comment']
         
         if deadline:
-            self.object.setDeadline(DateTime('%s %s:%s:0' % (deadline,hour,minute)))
+            day,month,year = deadline.split('/')
+            deadline = "%s/%s/%s %s:%s" % (month, day, year, hour, minute)
+            #deadline = time.strptime("%s %02d:%02d" %\
+            #                         (deadline,int(hour),int(minute)),
+            #                         '%d/%m/%Y %H:%M')[:5]
+            self.object.setDeadline(DateTime(deadline))
             if comment:
                 self.object.setComment(comment)
             self.object.addHistoryEntry()
         
-        return self.request.RESPONSE.redirect(self.context.absolute_url())
+        return self.request.RESPONSE.redirect("%s/view" % self.context.absolute_url())
 

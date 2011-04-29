@@ -5,8 +5,6 @@ from AccessControl import getSecurityManager
 from plone.app.layout.viewlets import ViewletBase
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from collective.js.jqueryui.utils import get_python_date_format 
-
 from Products.CMFPlone import MessageFactory
 _ = MessageFactory('atreal.deadline')
 
@@ -36,7 +34,6 @@ class DeadlineViewlet(ViewletBase):
             deadline = DateTime()
         else:
             deadline = self.deadline
-        #format = get_python_date_format(self.request) # XXX 
         return deadline.strftime("%d/%m/%Y#%H#%M").split('#')
 
     def hasComment(self):
