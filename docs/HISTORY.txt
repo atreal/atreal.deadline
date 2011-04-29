@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.2.0 (unreleased)
+-------------------
+
+- Moved to jqueryUI datepicker [tiazma]
+- Add delete deadline functionnality [tiazma]
+- Wide clean-up [tiazma]
+
+
 1.0dev (unreleased)
 -------------------
 
