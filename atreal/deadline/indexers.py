@@ -20,7 +20,6 @@ def eventStart_indexer(object):
     raise AttributeError
 
 
-
 @indexer(IDeadlineAware)
 def eventEnd_indexer(object):
   if object.portal_type=="Event":
@@ -36,7 +35,6 @@ def eventEnd_indexer(object):
     raise AttributeError
 
 
-
 @indexer(IDeadlineAware)
 def eventType_indexer(object):
   if object.portal_type=="Event":
@@ -50,7 +48,6 @@ def eventType_indexer(object):
   except (ComponentLookupError, TypeError, ValueError):
     # The catalog expects AttributeErrors when a value can't be found
     raise AttributeError
-
   
   
 @indexer(IDeadlineAware)  
@@ -64,17 +61,3 @@ def deadline_indexer(object):
   except (ComponentLookupError, TypeError, ValueError):
     # The catalog expects AttributeErrors when a value can't be found
     raise AttributeError
-
-#@indexer(IDeadlineAware)
-#def responsibleIndexWrapper(object):
-#  try:
-#    obj = IDeadlineable(object)
-#    responsible = obj.getResponsible()
-#    if not responsible:
-#      raise AttributeError
-#    return responsible
-#  except (ComponentLookupError, TypeError, ValueError):
-#    # The catalog expects AttributeErrors when a value can't be found
-#    raise AttributeError
-#
-#registerIndexableAttribute('workflow_responsible', responsibleIndexWrapper)

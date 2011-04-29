@@ -1,5 +1,4 @@
 from zope.interface import Interface
-from zope.app.event.interfaces import IObjectModifiedEvent
 
 class IDeadlineLayer( Interface ):
     """ Marker interface that defines a Zope 3 browser layer.

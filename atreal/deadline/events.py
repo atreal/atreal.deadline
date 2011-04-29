@@ -1,5 +1,3 @@
-from Acquisition import aq_base
-
 from atreal.deadline.interfaces import IDeadlineable
 
 
