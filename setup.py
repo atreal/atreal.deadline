@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.1beta2'
+version = '1.2.0dev'
 
 setup(name='atreal.deadline',
       version=version,
@@ -25,6 +25,7 @@ setup(name='atreal.deadline',
       install_requires=[
           'setuptools',
           'dateable.kalends',
+          'collective.js.jqueryui',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

@@ -47,7 +47,9 @@
 
     <include file="skins.zcml" />
 	
-
     <include package=".browser" />
+	
+	<include package="collective.js.jqueryui" />
+
 
 </configure>
