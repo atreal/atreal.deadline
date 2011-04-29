@@ -7,32 +7,36 @@
      tal:define="canModify view/canModify;
                  hasDeadline view/hasDeadline;
                  hasComment view/hasComment;
-                 site_url view/site_url;"
-     tal:condition="python:True">
+                 hasHistory view/hasHistory;
+                 site_url view/site_url;">
   
-
-  <style type="text/css" media="all"
-          tal:content="structure string:@import url(${site_url}/jscalendar/calendar-system.css);"/>
-
-  <div id="deadline-display" tal:attributes="class site_url">
+  <div id="deadline-display"
+       tal:attributes="class here/absolute_url"
+       tal:condition="python:hasDeadline or canModify">
+    <!--This previous class attribute has to be removed when all meths will move to ajax-->
     <tal:canmodify condition="canModify">
-        <span tal:condition="not:hasDeadline"
+        <span 
+              tal:attributes="style python:hasDeadline and 'display: None'"
               class="action dl-add"
               i18n:attributes="title add"
               title="Add"></span>
         <span tal:condition="hasDeadline"
               class="action dl-modify"
               i18n:attributes="title modify" title="Modify"></span>
-        <span tal:condition="hasDeadline"
+        <span tal:condition="hasHistory"
               class="action dl-history"
               i18n:attributes="title close" title="History"></span>
-        <!--<span tal:condition="hasDeadline" class="action dl-delete" i18n:translate="delete" title="delete"></span>-->
-        <span tal:condition="not:hasDeadline" i18n:translate="Deadline">Deadline</span>
+        <span tal:condition="hasDeadline" class="action dl-delete" i18n:translate="delete" title="delete"></span>
+        <span class="dl-defaultmessage"
+              tal:attributes="style python:hasDeadline and 'display: None'"
+              i18n:translate="Deadline">Deadline</span>
     </tal:canmodify>
     <span class="dl-date"
           tal:condition="hasDeadline"
-          tal:content="view/getDeadline"></span>
-    <img tal:condition="hasComment" tal:attributes="src string:${site_url}/arrowRight.gif"/>
+          tal:content="view/getHumanDeadline"></span>
+    <img class="dl-arrow"
+         tal:condition="hasComment"
+         tal:attributes="src string:${site_url}/arrowRight.gif"/>
     <span class="dl-comment"
           tal:condition="hasComment"
           tal:content="view/getComment"></span>
@@ -41,17 +45,42 @@
 
   <div id="deadline-form" style="display:none;">
     <form method="POST" 
-          tal:attributes="action string:${here/absolute_url}/@@deadline_provider/submitDeadlineForm"
-          tal:define="uniqueItemIndex view/uniqueItemIndex;
-                      config view/getConfig;">
+          tal:attributes="action string:${here/absolute_url}/@@deadline_provider/submitDeadlineForm">
       <div class="field"
            tal:define="inputname  string:Deadline;
-                       formname   string:deadline_form;
-                       inputvalue config/deadline;
+                       jqdeadline view/getJqueryDeadline;
                        ">
         <img tal:attributes="src string:${site_url}/arrowRight.gif" alt="arrowRight"/>
         <label for="Deadline" i18n:translate="label_new_deadline">New deadline</label> :
-        <span metal:use-macro="here/calendar_macros/macros/calendarDatePickerBox" />
+        
+        <div>
+            <input tal:define="date_str python:jqdeadline[0]"
+                   class="calendarInput" 
+                   type="text" 
+                   value="" 
+                   tal:attributes="name  inputname; 
+                                   id    inputname;
+                                   value date_str" /> 
+        
+              <span class="calendarwidget-time"
+                    tal:define="hours python:jqdeadline[1];
+                                minutes python:jqdeadline[2];">
+                  <select class="calendarInput" tal:attributes="name string:${inputname}_hour;
+                                                                id   string:${inputname}_hour; ">
+                    <option tal:repeat="hour python: range(24)"
+                            tal:attributes="value hour;
+                                            selected python: '%02d'%hour==hours"
+                            tal:content="python: '%02d' % hour" />
+                  </select> :
+                  <select class="calendarInput" tal:attributes="name string:${inputname}_minute;
+                                                                id   string:${inputname}_minute">
+                    <option tal:repeat="minute python: range(0, 60)"
+                            tal:attributes="value minute;
+                                            selected python: '%02d'%minute==minutes"
+                            tal:content="python: '%02d' % minute" />
+                  </select> 
+              </span>
+        </div>
       </div>
     
       <div class="field">
@@ -63,20 +92,9 @@
                   name="comment"
                   cols="60"
                   rows="2" 
-                  tal:content="config/comment|nothing">
+                  tal:content="view/getComment|nothing">
         </textarea>
       </div>      
-      <!--<div class="field">-->
-      <!--  <label for="Responsible">Responsible</label>-->
-      <!--  <div>-->
-      <!--    <select name="Responsible" id="Responsible" tal:define="responsible here/@@deadline_provider/getResponsible">-->
-      <!--      <tal:users repeat="user here/@@deadline_provider/getPossibleResponsible">-->
-      <!--        <option tal:content="user/fullname"-->
-      <!--                tal:attributes="value user/id; selected python:responsible==user['id']" />-->
-      <!--      </tal:users>-->
-      <!--    </select>-->
-      <!--  </div>-->
-      <!--</div>-->
       <input class="context" type="submit"
              i18n:attributes="value label_save"
              value="Save" />
@@ -88,7 +106,7 @@
     </form>
   </div>
   
-  <div tal:condition="hasDeadline" id="deadline-history" style="display:none">
+  <div tal:condition="hasHistory" id="deadline-history" style="display:none">
     <img tal:attributes="src string:${site_url}/arrowRight.gif" alt="arrowRight"/>
     <span i18n:translate="deadline_history">Deadline history</span>
     <table class="listing sortable"

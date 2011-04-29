@@ -30,6 +30,11 @@ class ToDeadlineableObject( object ):
       return False
     return self.annotations[self.key]['deadline']
 
+  def deleteDeadline(self):
+    self.annotations[self.key]['deadline'] = None
+    self.annotations[self.key]['comment'] = None
+    self.context.reindexObject(idxs=['deadline', 'start', 'end'])
+
   def setComment(self, comment):
     if not comment:
       return

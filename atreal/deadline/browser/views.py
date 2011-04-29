@@ -1,6 +1,7 @@
 # Imports: Zope
 #from Acquisition import aq_inner
 from Products.Five  import BrowserView
+from DateTime.DateTime import DateTime
 #from zope.event import notify
 from zope.interface import implements
 
@@ -30,8 +31,13 @@ class DeadlineProvider( BrowserView ):
     def setDeadline(self):
         """
         """
-        deadline = self.context.REQUEST['Deadline']
+        deadline = self.request['Deadline']
         self.object.setDeadline(deadline)
+
+    def deleteDeadline(self):
+        """
+        """
+        self.object.deleteDeadline()
     
     def getComment(self):
         """
@@ -41,7 +47,7 @@ class DeadlineProvider( BrowserView ):
     def setComment(self):
         """
         """
-        comment = self.context.REQUEST['comment']
+        comment = self.request['comment']
         self.object.setComment(comment)
     
     def getHistory(self):
@@ -49,74 +55,19 @@ class DeadlineProvider( BrowserView ):
         """
         return self.object.getHistory()
     
-    #
-    #def setDeadlineAndTransition(self):
-        #  """
-        #  """
-        #  deadline = self.context.REQUEST['Deadline']
-        #  self.object.setNextDeadline(deadline)
-        #  self.request.RESPONSE.redirect(self.request.get("orig_url"))
-        #  
-    #def getResponsible(self):
-        #  """
-        #  """
-        #  return self.object.getResponsible()
-        #
-    #def setResponsible(self):
-        #  """
-        #  """
-        #  responsible = self.context.REQUEST['Responsible']
-        #  self.object.setResponsible(responsible)
-        #
-    #def getPossibleResponsible(self):
-        #  """
-        #  """
-        #  infos = []
-        #  pmt = getToolByName(self, 'portal_membership')
-        #  infos = [dict(
-        #    id=member.id,
-        #    fullname=member.getProperty('fullname',None),
-        #    email=member.getProperty('email',None)
-        #  ) for member in pmt.listMembers()]
-        #  infos[0:0]=[dict(
-        #      id='',
-        #      fullname='Aucun',
-        #      email='contact@atreal.net',
-        #  )]
-        #  return infos
-        #
-    #def setDeadlineAndResponsible(self):
-        #  """
-        #  """
-        #  deadline = self.context.REQUEST['Deadline']
-        #  responsible = self.context.REQUEST['Responsible']
-        #  self.object.setDeadline(deadline)
-        #  self.object.setResponsible(responsible)
-        #  msg="You successfully changed worklflow_deadline and workflow_responsible!"
-        #  self.context.plone_utils.addPortalMessage(msg)
-        #  self.request.RESPONSE.redirect(self.request.get("orig_url"))
-        
     def submitDeadlineForm(self):
         """
         """
-        deadline = self.context.REQUEST['Deadline']
-        comment = self.context.REQUEST['comment']
-        
-        if deadline == 'False':
-            deadline = False
+        deadline = self.request['Deadline']
+        hour = self.request['Deadline_hour']
+        minute = self.request['Deadline_minute']
+        comment = self.request['comment']
         
         if deadline:
-            self.object.setDeadline(deadline)
-        
+            self.object.setDeadline(DateTime('%s %s:%s:0' % (deadline,hour,minute)))
             if comment:
                 self.object.setComment(comment)
-                
             self.object.addHistoryEntry()
         
         return self.request.RESPONSE.redirect(self.context.absolute_url())
-            #    
-        #self.object.setResponsible(responsible)
-        #msg="You successfully changed worklflow_deadline and workflow_responsible!"
-        #self.context.plone_utils.addPortalMessage(msg)
-        #self.request.RESPONSE.redirect(self.request.get("orig_url"))
 

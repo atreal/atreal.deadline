@@ -1,18 +1,19 @@
 from DateTime import DateTime
 
 from zope.component import getMultiAdapter
-from Acquisition import aq_inner
 from AccessControl import getSecurityManager
 from plone.app.layout.viewlets import ViewletBase
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFPlone import utils
+
+from collective.js.jqueryui.utils import get_python_date_format 
 
 from Products.CMFPlone import MessageFactory
 _ = MessageFactory('atreal.deadline')
 
-#from atreal.deadline.browser.controlpanel import IDeadlineSchema
 
 class DeadlineViewlet(ViewletBase):
+
+    index = ViewPageTemplateFile("deadline.pt")
     
     def canModify(self):
         """ """
@@ -25,12 +26,18 @@ class DeadlineViewlet(ViewletBase):
         """ """
         return True and self.deadline or False
     
-    def getDeadline(self):
+    def getHumanDeadline(self):
+        """ """
+        return self.deadline.strftime("%d/%m/%Y à %Hh%M")
+
+    def getJqueryDeadline(self):
         """ """
         if not self.deadline:
-            return self.deadline
-        dl = self.deadline.strftime("%d/%m/%Y à %Hh%M")
-        return dl
+            deadline = DateTime()
+        else:
+            deadline = self.deadline
+        #format = get_python_date_format(self.request) # XXX 
+        return deadline.strftime("%d/%m/%Y#%H#%M").split('#')
 
     def hasComment(self):
         """ """
@@ -40,6 +47,10 @@ class DeadlineViewlet(ViewletBase):
         """ """
         return self.comment
 
+    def hasHistory(self):
+        """ """
+        return True and self.history or False
+
     def getHistory(self):
         """ """
         for deadline, comment in self.history:
@@ -48,18 +59,6 @@ class DeadlineViewlet(ViewletBase):
                 comment = comment,
             )
 
-
-    def getConfig(self):
-        """ """
-        return dict(
-            deadline = self.hasDeadline() and self.deadline or DateTime(),
-            comment = self.comment,
-            show_hm = 1,
-            show_ymd = 1,
-            starting_year = 2010,
-            ending_year = 2020,
-        )
-    
     def update(self):
         """ """
         super(DeadlineViewlet, self).update()
@@ -68,17 +67,5 @@ class DeadlineViewlet(ViewletBase):
         self.deadline = self.deadlineProvider.getDeadline()
         self.comment = self.deadlineProvider.getComment()
         self.history = self.deadlineProvider.getHistory()
-        try:
-            self.uniqueItemIndex = aq_inner(self).view._data['uniqueItemIndex']
-        except:
-            self.uniqueItemIndex = utils.RealIndexIterator(pos=0) # @@manage-viewlets or other
-            
-        #siteroot = queryUtility(IPloneSiteRoot)
-        #conf = IDeadlineSchema(siteroot)
-        #if not getattr(conf, 'actr_active', True):
-        #    return
-        #    IStatusMessage(self.request).addStatusMessage(e.args[0], type='error') 
-
-    index = ViewPageTemplateFile("deadline.pt")      
 
 
