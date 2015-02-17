@@ -3,8 +3,6 @@ function debug (value){
     alert(value);
 }; 
 
-//var deadline_3rd_party_scripts = false;
-
 function displayDeadlineForm() {
     if (jq("#deadline-form").is(":hidden")) {
         jq("#deadline-form").slideDown("slow");
@@ -23,19 +21,42 @@ function displayDeadlineHistory() {
     }
 };
 
+function addDeadline() {
+    var url = jq('#deadline-form').attr('data-absolute_url');
+    jq.ajax({
+        url: url + '/@@deadline_management//submitDeadlineForm',
+        type: 'POST',
+        data: jq('#deadline-form form').serializeArray(),
+        dataType: 'html',
+        cache: false,
+        success: function(data) {
+            jq('#content-deadline').replaceWith(data);
+            initializeDeadline();
+            initializeDatePicker();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // debugger;
+        }
+    });
+};
+
+
 function deleteDeadline() {
-    target_url = jq(this).parent().attr("class") + '/@@deadline_management/deleteDeadline'
-    jq.get(target_url);
-    if (jq("#deadline-form").is(":visible")) {
-        jq("#deadline-form").slideUp("slow");
-    }
-    jq(".deadline span.dl-add").show();
-    jq(".deadline span.dl-modify").hide();
-    jq(".deadline span.dl-date").hide();
-    jq(".deadline span.dl-comment").hide();
-    jq(".deadline img.dl-arrow").hide();
-    jq(".deadline span.dl-defaultmessage").show();
-    jq(this).hide();
+    var url = jq('#deadline-form').attr('data-absolute_url');
+    jq.ajax({
+        url: url + '/@@deadline_management/deleteDeadline',
+        type: 'POST',
+        dataType: 'html',
+        cache: false,
+        success: function(data) {
+            jq('#content-deadline').replaceWith(data);
+            initializeDeadline();
+            initializeDatePicker();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // debugger;
+        }
+    });
 };
 
 function initializeDeadline() {
@@ -43,7 +64,10 @@ function initializeDeadline() {
     jq(".deadline span.dl-modify").click(displayDeadlineForm);
     jq(".deadline span.dl-history").click(displayDeadlineHistory);
     jq(".deadline span.dl-delete").click(deleteDeadline);
-
+    jq('.deadline input[type=submit]').click(function(e){
+        e.preventDefault();
+        addDeadline();
+    });
 };
 
 function initializeDatePicker() {

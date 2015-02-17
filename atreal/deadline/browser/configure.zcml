@@ -26,7 +26,7 @@
         for="atreal.deadline.interfaces.IDeadlineAware"
         name="deadline_management"
         class=".views.DeadlineProvider"
-        allowed_attributes="deleteDeadline"
+        allowed_attributes="submitDeadlineForm deleteDeadline render_viewlet"
         permission="atreal.deadline.ModifyDeadline"
         allowed_interface="atreal.deadline.interfaces.IDeadlineProvider"
         layer="atreal.deadline.interfaces.IDeadlineLayer"

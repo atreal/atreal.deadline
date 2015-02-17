@@ -53,7 +53,3 @@ class IDeadlineProvider( Interface ):
   def getHistory(self):
       """
       """
-
-  def submitDeadlineForm(self):
-    """
-    """

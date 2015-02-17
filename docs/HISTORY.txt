@@ -1,8 +1,17 @@
 Changelog
 =========
 
+1.3.0 (unreleased)
+------------------
+
+- Replaced ugly JS way to build UI by viewlet refreshing [tiazma]
+- Ajaxified deadline saving [tiazma]
+- Marked object as modified every add/edit/delete [tiazma]
+- Fixed 'deadline not saving with same deadline and empty comment' [tiazma]
+- Few PEP8, still work to do [tiazma]
+
 1.2.0 (unreleased)
--------------------
+------------------
 
 - Moved to jqueryUI datepicker [tiazma]
 - Add delete deadline functionnality [tiazma]

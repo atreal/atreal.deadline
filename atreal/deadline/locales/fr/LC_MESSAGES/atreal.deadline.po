@@ -44,7 +44,7 @@ msgstr "Historique des deadlines"
 #. Default: "Deadlines"
 #: ./browser/deadline.pt:99
 msgid "deadlines"
-msgstr "dealines"
+msgstr "deadlines"
 
 #. Default: "Comments"
 #: ./browser/deadline.pt:59

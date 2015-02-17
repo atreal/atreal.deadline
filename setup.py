@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.2.0dev'
+version = '1.3.0'
 
 setup(name='atreal.deadline',
       version=version,
@@ -10,9 +10,9 @@ setup(name='atreal.deadline',
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
-        "Framework :: Plone",
-        "Programming Language :: Python",
-        ],
+          "Framework :: Plone",
+          "Programming Language :: Python",
+      ],
       keywords='Plone Zope deadline atReal',
       author='atReal',
       author_email='contact@atreal.net',

@@ -11,9 +11,7 @@
                  site_url view/site_url;">
   
   <div id="deadline-display"
-       tal:attributes="class here/absolute_url"
        tal:condition="python:hasDeadline or canModify">
-    <!--This previous class attribute has to be removed when all meths will move to ajax-->
     <tal:canmodify condition="canModify">
         <span 
               tal:attributes="style python:hasDeadline and 'display: None'"
@@ -43,9 +41,9 @@
     
   </div>
 
-  <div id="deadline-form" style="display:none;">
+  <div id="deadline-form" style="display:none;" tal:attributes="data-absolute_url here/absolute_url">
     <form method="POST" 
-          tal:attributes="action string:${here/absolute_url}/@@deadline_provider/submitDeadlineForm">
+          tal:attributes="action string:${here/absolute_url}">
       <div class="field"
            tal:define="inputname  string:Deadline;
                        jqdeadline view/getJqueryDeadline;
