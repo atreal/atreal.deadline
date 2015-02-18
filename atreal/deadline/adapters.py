@@ -31,6 +31,7 @@ class ToDeadlineableObject(object):
         if not self.annotations.get(self.key, None):
             self.annotations[self.key] = OOBTree()
 
+    @post_indexer
     def setDeadline(self, deadline):
         if not deadline:
             return
